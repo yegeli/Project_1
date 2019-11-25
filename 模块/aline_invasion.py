@@ -1,7 +1,8 @@
-# aline_inbasion.py
+# aline_invasion.py
 import pygame
 from pygame.sprite import Group
 from settings import Settings
+from game_stats import GameStats
 from ship import Ship
 import game_functions as gf
 def run_game():
@@ -18,15 +19,20 @@ def run_game():
     aliens = Group()
     '''创建外星人群'''
     gf.create_fleet(ai_settings,screen,ship,aliens)
+    '''创建一个用于存储游戏统计信息的实例'''
+    stats = GameStats(ai_settings)
 
     '''开始游戏的主循环'''
     while True:
         '''监视键盘和鼠标事件'''
         gf.check_events(ai_settings,screen,ship,bullets)
-        # 根据移动标志调整飞船的位置
-        ship.update()
-        gf.update_bullets(bullets)
-        '''每次循环时都重绘屏幕'''
+
+        if stats.game_active:
+            # 根据移动标志调整飞船的位置
+            ship.update()
+            gf.update_bullets(ai_settings,screen,ship,aliens,bullets)
+            gf.update_aliens(ai_settings,stats,screen,ship,aliens,bullets)
+            '''每次循环时都重绘屏幕'''
         gf.update_screen(ai_settings,screen,ship,aliens,bullets)
 
 run_game()
