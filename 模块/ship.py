@@ -1,9 +1,11 @@
 # ship.py
 # 创建一个名为ship的模块，包含Ship类，负责管理飞船的大部分行为
 import pygame
-class Ship():
+from pygame.sprite import Sprite
+class Ship(Sprite):
     def __init__(self,ai_settings,screen): # screen指定飞船绘制到的地方
         '''初始化飞船并设置其初始位置'''
+        super(Ship, self).__init__()
         self.screen = screen
         self.ai_settings = ai_settings
         # 加载飞船图像并获取其它外接矩形
